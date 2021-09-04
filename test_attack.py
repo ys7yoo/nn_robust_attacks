@@ -66,19 +66,19 @@ def generate_data(data, samples, targeted=True, start=0, inception=False):
 
 if __name__ == "__main__":
     with tf.compat.v1.Session() as sess:
-        data, model =  MNIST(), MNISTModel("models/mnist", sess)
-        #data, model =  CIFAR(), CIFARModel("models/cifar", sess)
+        data, model = MNIST(), MNISTModel("models/mnist", sess)
+        #data, model = CIFAR(), CIFARModel("models/cifar", sess)
         attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0)
         #attack = CarliniL0(sess, model, max_iterations=1000, initial_const=10,
         #                   largest_const=15)
 
         inputs, targets = generate_data(data, samples=1, targeted=True,
                                         start=0, inception=False)
-        timestart = time.time()
+        time_start = time.time()
         adv = attack.attack(inputs, targets)
-        timeend = time.time()
+        time_end = time.time()
         
-        print("Took",timeend-timestart,"seconds to run",len(inputs),"samples.")
+        print("Took", time_end - time_start, "seconds to run", len(inputs), "samples.")
 
         for i in range(len(adv)):
             print("Valid:")

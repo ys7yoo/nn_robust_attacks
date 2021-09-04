@@ -17,6 +17,7 @@ from setup_mnist import MNIST
 from setup_cifar import CIFAR
 import os
 
+
 def train(data, file_name, params, num_epochs=50, batch_size=128, train_temp=1, init=None):
     """
     Standard neural network training procedure.
@@ -71,6 +72,7 @@ def train(data, file_name, params, num_epochs=50, batch_size=128, train_temp=1, 
 
     return model
 
+
 def train_distillation(data, file_name, params, num_epochs=50, batch_size=128, train_temp=1):
     """
     Train a network using defensive distillation.
@@ -102,7 +104,8 @@ def train_distillation(data, file_name, params, num_epochs=50, batch_size=128, t
     predicted = student.predict(data.train_data)
 
     print(predicted)
-    
+
+
 if not os.path.isdir('models'):
     os.makedirs('models')
 
