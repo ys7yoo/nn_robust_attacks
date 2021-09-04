@@ -1,7 +1,7 @@
 ### About
 
-Corresponding code to the paper "Towards Evaluating the Robustness of Neural
-Networks" by Nicholas Carlini and David Wagner, at IEEE Symposium on Security &
+Corresponding code to the paper ["Towards Evaluating the Robustness of Neural
+Networks"](https://doi.org/10.1109/SP.2017.49) by Nicholas Carlini and David Wagner, at IEEE Symposium on Security &
 Privacy, 2017.
 
 Implementations of the three attack algorithms in Tensorflow. It runs correctly
