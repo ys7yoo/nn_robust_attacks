@@ -9,9 +9,9 @@ import tensorflow as tf
 import numpy as np
 import time
 
-from setup_cifar import CIFAR, CIFARModel
 from setup_mnist import MNIST, MNISTModel
-from setup_inception import ImageNet, InceptionModel
+#from setup_cifar import CIFAR, CIFARModel
+#from setup_inception import ImageNet, InceptionModel
 
 from l2_attack import CarliniL2
 from l0_attack import CarliniL0
@@ -65,7 +65,7 @@ def generate_data(data, samples, targeted=True, start=0, inception=False):
 
 
 if __name__ == "__main__":
-    with tf.Session() as sess:
+    with tf.compat.v1.Session() as sess:
         data, model =  MNIST(), MNISTModel("models/mnist", sess)
         #data, model =  CIFAR(), CIFARModel("models/cifar", sess)
         attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0)

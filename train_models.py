@@ -50,7 +50,7 @@ def train(data, file_name, params, num_epochs=50, batch_size=128, train_temp=1, 
         model.load_weights(init)
 
     def fn(correct, predicted):
-        return tf.nn.softmax_cross_entropy_with_logits(labels=correct,
+        return tf.nn.softmax_cross_entropy_with_logits(labels=tf.stop_gradient(correct),
                                                        logits=predicted/train_temp)
 
     sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
@@ -89,7 +89,7 @@ def train_distillation(data, file_name, params, num_epochs=50, batch_size=128, t
 
     # evaluate the labels at temperature t
     predicted = teacher.predict(data.train_data)
-    with tf.Session() as sess:
+    with tf.compat.v1.Session() as sess:
         y = sess.run(tf.nn.softmax(predicted/train_temp))
         print(y)
         data.train_labels = y
@@ -106,10 +106,10 @@ def train_distillation(data, file_name, params, num_epochs=50, batch_size=128, t
 if not os.path.isdir('models'):
     os.makedirs('models')
 
-train(CIFAR(), "models/cifar", [64, 64, 128, 128, 256, 256], num_epochs=50)
 train(MNIST(), "models/mnist", [32, 32, 64, 64, 200, 200], num_epochs=50)
+#train(CIFAR(), "models/cifar", [64, 64, 128, 128, 256, 256], num_epochs=50)
 
 train_distillation(MNIST(), "models/mnist-distilled-100", [32, 32, 64, 64, 200, 200],
                    num_epochs=50, train_temp=100)
-train_distillation(CIFAR(), "models/cifar-distilled-100", [64, 64, 128, 128, 256, 256],
-                   num_epochs=50, train_temp=100)
+#train_distillation(CIFAR(), "models/cifar-distilled-100", [64, 64, 128, 128, 256, 256],
+#                   num_epochs=50, train_temp=100)

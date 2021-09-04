@@ -83,31 +83,31 @@ class CarliniL0:
         original = tf.Variable(np.zeros(shape,dtype=np.float32))
         timg = tf.Variable(np.zeros(shape,dtype=np.float32))
         tlab = tf.Variable(np.zeros((1,model.num_labels),dtype=np.float32))
-        const = tf.placeholder(tf.float32, [])
+        const = tf.compat.v1.placeholder(tf.float32, [])
 
         # and the assignment to set the variables
-        assign_modifier = tf.placeholder(np.float32,shape)
-        assign_canchange = tf.placeholder(np.float32,shape)
-        assign_simg = tf.placeholder(np.float32,shape)
-        assign_original = tf.placeholder(np.float32,shape)
-        assign_timg = tf.placeholder(np.float32,shape)
-        assign_tlab = tf.placeholder(np.float32,(1,self.model.num_labels))
+        assign_modifier = tf.compat.v1.placeholder(np.float32,shape)
+        assign_canchange = tf.compat.v1.placeholder(np.float32,shape)
+        assign_simg = tf.compat.v1.placeholder(np.float32,shape)
+        assign_original = tf.compat.v1.placeholder(np.float32,shape)
+        assign_timg = tf.compat.v1.placeholder(np.float32,shape)
+        assign_tlab = tf.compat.v1.placeholder(np.float32,(1,self.model.num_labels))
 
         # these are the variables to initialize when we run
-        set_modifier = tf.assign(modifier, assign_modifier)
+        set_modifier = tf.compat.v1.assign(modifier, assign_modifier)
         setup = []
-        setup.append(tf.assign(canchange, assign_canchange))
-        setup.append(tf.assign(timg, assign_timg))
-        setup.append(tf.assign(original, assign_original))
-        setup.append(tf.assign(simg, assign_simg))
-        setup.append(tf.assign(tlab, assign_tlab))
+        setup.append(tf.compat.v1.assign(canchange, assign_canchange))
+        setup.append(tf.compat.v1.assign(timg, assign_timg))
+        setup.append(tf.compat.v1.assign(original, assign_original))
+        setup.append(tf.compat.v1.assign(simg, assign_simg))
+        setup.append(tf.compat.v1.assign(tlab, assign_tlab))
         
         newimg = (tf.tanh(modifier + simg)/2)*canchange+(1-canchange)*original
         
         output = model.predict(newimg)
         
-        real = tf.reduce_sum((tlab)*output,1)
-        other = tf.reduce_max((1-tlab)*output - (tlab*10000),1)
+        real = tf.reduce_sum(input_tensor=(tlab)*output,axis=1)
+        other = tf.reduce_max(input_tensor=(1-tlab)*output - (tlab*10000),axis=1)
         if self.TARGETED:
             # if targetted, optimize for making the other class most likely
             loss1 = tf.maximum(0.0, other-real+.01)
@@ -116,19 +116,19 @@ class CarliniL0:
             loss1 = tf.maximum(0.0, real-other+.01)
 
         # sum up the losses
-        loss2 = tf.reduce_sum(tf.square(newimg-tf.tanh(timg)/2))
+        loss2 = tf.reduce_sum(input_tensor=tf.square(newimg-tf.tanh(timg)/2))
         loss = const*loss1+loss2
             
-        outgrad = tf.gradients(loss, [modifier])[0]
+        outgrad = tf.gradients(ys=loss, xs=[modifier])[0]
         
         # setup the adam optimizer and keep track of variables we're creating
-        start_vars = set(x.name for x in tf.global_variables())
-        optimizer = tf.train.AdamOptimizer(self.LEARNING_RATE)
+        start_vars = set(x.name for x in tf.compat.v1.global_variables())
+        optimizer = tf.compat.v1.train.AdamOptimizer(self.LEARNING_RATE)
         train = optimizer.minimize(loss, var_list=[modifier])
 
-        end_vars = tf.global_variables()
+        end_vars = tf.compat.v1.global_variables()
         new_vars = [x for x in end_vars if x.name not in start_vars]
-        init = tf.variables_initializer(var_list=[modifier,canchange,simg,
+        init = tf.compat.v1.variables_initializer(var_list=[modifier,canchange,simg,
                                                   original,timg,tlab]+new_vars)
 
         

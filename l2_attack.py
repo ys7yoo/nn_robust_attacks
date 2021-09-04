@@ -77,9 +77,9 @@ class CarliniL2:
         self.const = tf.Variable(np.zeros(batch_size), dtype=tf.float32)
 
         # and here's what we use to assign them
-        self.assign_timg = tf.placeholder(tf.float32, shape)
-        self.assign_tlab = tf.placeholder(tf.float32, (batch_size,num_labels))
-        self.assign_const = tf.placeholder(tf.float32, [batch_size])
+        self.assign_timg = tf.compat.v1.placeholder(tf.float32, shape)
+        self.assign_tlab = tf.compat.v1.placeholder(tf.float32, (batch_size,num_labels))
+        self.assign_const = tf.compat.v1.placeholder(tf.float32, [batch_size])
         
         # the resulting image, tanh'd to keep bounded from boxmin to boxmax
         self.boxmul = (boxmax - boxmin) / 2.
@@ -90,11 +90,11 @@ class CarliniL2:
         self.output = model.predict(self.newimg)
         
         # distance to the input data
-        self.l2dist = tf.reduce_sum(tf.square(self.newimg-(tf.tanh(self.timg) * self.boxmul + self.boxplus)),[1,2,3])
+        self.l2dist = tf.reduce_sum(input_tensor=tf.square(self.newimg-(tf.tanh(self.timg) * self.boxmul + self.boxplus)),axis=[1,2,3])
         
         # compute the probability of the label class versus the maximum other
-        real = tf.reduce_sum((self.tlab)*self.output,1)
-        other = tf.reduce_max((1-self.tlab)*self.output - (self.tlab*10000),1)
+        real = tf.reduce_sum(input_tensor=(self.tlab)*self.output,axis=1)
+        other = tf.reduce_max(input_tensor=(1-self.tlab)*self.output - (self.tlab*10000),axis=1)
 
         if self.TARGETED:
             # if targetted, optimize for making the other class most likely
@@ -104,15 +104,15 @@ class CarliniL2:
             loss1 = tf.maximum(0.0, real-other+self.CONFIDENCE)
 
         # sum up the losses
-        self.loss2 = tf.reduce_sum(self.l2dist)
-        self.loss1 = tf.reduce_sum(self.const*loss1)
+        self.loss2 = tf.reduce_sum(input_tensor=self.l2dist)
+        self.loss1 = tf.reduce_sum(input_tensor=self.const*loss1)
         self.loss = self.loss1+self.loss2
         
         # Setup the adam optimizer and keep track of variables we're creating
-        start_vars = set(x.name for x in tf.global_variables())
-        optimizer = tf.train.AdamOptimizer(self.LEARNING_RATE)
+        start_vars = set(x.name for x in tf.compat.v1.global_variables())
+        optimizer = tf.compat.v1.train.AdamOptimizer(self.LEARNING_RATE)
         self.train = optimizer.minimize(self.loss, var_list=[modifier])
-        end_vars = tf.global_variables()
+        end_vars = tf.compat.v1.global_variables()
         new_vars = [x for x in end_vars if x.name not in start_vars]
 
         # these are the variables to initialize when we run
@@ -121,7 +121,7 @@ class CarliniL2:
         self.setup.append(self.tlab.assign(self.assign_tlab))
         self.setup.append(self.const.assign(self.assign_const))
         
-        self.init = tf.variables_initializer(var_list=[modifier]+new_vars)
+        self.init = tf.compat.v1.variables_initializer(var_list=[modifier]+new_vars)
 
     def attack(self, imgs, targets):
         """

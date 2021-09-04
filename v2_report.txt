@@ -1,0 +1,152 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 9 files
+Detected 1 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: nn_robust_attacks/train_models.py
+--------------------------------------------------------------------------------
+nn_robust_attacks/train_models.py:70:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+================================================================================
+Detailed log follows:
+
+================================================================================
+================================================================================
+Input tree: 'nn_robust_attacks'
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/train_models.py'
+ outputting to 'nn_robust_attacks_v2/train_models.py'
+--------------------------------------------------------------------------------
+
+53:15: INFO: Changing labels arg of tf.nn.softmax_cross_entropy_with_logits to tf.stop_gradient(labels). Please check this transformation.
+
+70:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+92:9: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/l0_attack.py'
+ outputting to 'nn_robust_attacks_v2/l0_attack.py'
+--------------------------------------------------------------------------------
+
+86:16: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+89:26: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+90:27: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+91:22: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+92:26: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+93:22: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+94:22: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+97:23: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+99:21: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+100:21: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+101:21: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+102:21: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+103:21: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+109:15: INFO: Added keywords to args of function 'tf.reduce_sum'
+110:16: INFO: Added keywords to args of function 'tf.reduce_max'
+119:16: INFO: Added keywords to args of function 'tf.reduce_sum'
+122:18: INFO: Added keywords to args of function 'tf.gradients'
+125:41: INFO: Renamed 'tf.global_variables' to 'tf.compat.v1.global_variables'
+126:20: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+129:19: INFO: Renamed 'tf.global_variables' to 'tf.compat.v1.global_variables'
+131:15: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/setup_mnist.py'
+ outputting to 'nn_robust_attacks_v2/setup_mnist.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/l2_attack.py'
+ outputting to 'nn_robust_attacks_v2/l2_attack.py'
+--------------------------------------------------------------------------------
+
+80:27: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+81:27: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+82:28: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+93:22: INFO: Added keywords to args of function 'tf.reduce_sum'
+96:15: INFO: Added keywords to args of function 'tf.reduce_sum'
+97:16: INFO: Added keywords to args of function 'tf.reduce_max'
+107:21: INFO: Added keywords to args of function 'tf.reduce_sum'
+108:21: INFO: Added keywords to args of function 'tf.reduce_sum'
+112:41: INFO: Renamed 'tf.global_variables' to 'tf.compat.v1.global_variables'
+113:20: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+115:19: INFO: Renamed 'tf.global_variables' to 'tf.compat.v1.global_variables'
+124:20: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/setup_cifar.py'
+ outputting to 'nn_robust_attacks_v2/setup_cifar.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/setup_inception.py'
+ outputting to 'nn_robust_attacks_v2/setup_inception.py'
+--------------------------------------------------------------------------------
+
+52:8: INFO: Renamed 'tf.app.flags' to 'tf.compat.v1.app.flags'
+60:0: INFO: Renamed 'tf.app.flags' to 'tf.compat.v1.app.flags'
+65:0: INFO: Renamed 'tf.app.flags' to 'tf.compat.v1.app.flags'
+67:0: INFO: Renamed 'tf.app.flags' to 'tf.compat.v1.app.flags'
+99:11: INFO: Renamed 'tf.gfile.Exists' to 'tf.io.gfile.exists'
+100:6: INFO: Renamed 'tf.logging.fatal' to 'tf.compat.v1.logging.fatal'
+101:11: INFO: Renamed 'tf.gfile.Exists' to 'tf.io.gfile.exists'
+102:6: INFO: Renamed 'tf.logging.fatal' to 'tf.compat.v1.logging.fatal'
+105:27: INFO: Renamed 'tf.gfile.GFile' to 'tf.io.gfile.GFile'
+116:21: INFO: Renamed 'tf.gfile.GFile' to 'tf.io.gfile.GFile'
+128:8: INFO: Renamed 'tf.logging.fatal' to 'tf.compat.v1.logging.fatal'
+143:7: INFO: Renamed 'tf.gfile.FastGFile' to 'tf.compat.v1.gfile.FastGFile'
+145:16: INFO: Renamed 'tf.GraphDef' to 'tf.compat.v1.GraphDef'
+162:9: INFO: Renamed 'tf.gfile.Exists' to 'tf.io.gfile.exists'
+163:4: INFO: Renamed 'tf.logging.fatal' to 'tf.compat.v1.logging.fatal'
+164:15: INFO: Renamed 'tf.gfile.FastGFile' to 'tf.compat.v1.gfile.FastGFile'
+169:7: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+179:10: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+270:2: INFO: Renamed 'tf.app.run' to 'tf.compat.v1.app.run'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/test_attack.py'
+ outputting to 'nn_robust_attacks_v2/test_attack.py'
+--------------------------------------------------------------------------------
+
+68:9: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/li_attack.py'
+ outputting to 'nn_robust_attacks_v2/li_attack.py'
+--------------------------------------------------------------------------------
+
+80:14: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+81:15: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+82:15: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+83:15: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+84:16: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+91:15: INFO: Added keywords to args of function 'tf.reduce_sum'
+92:16: INFO: Added keywords to args of function 'tf.reduce_max'
+102:16: INFO: Added keywords to args of function 'tf.reduce_sum'
+106:41: INFO: Renamed 'tf.global_variables' to 'tf.compat.v1.global_variables'
+107:20: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+110:19: INFO: Renamed 'tf.global_variables' to 'tf.compat.v1.global_variables'
+112:15: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'nn_robust_attacks/verify.py'
+ outputting to 'nn_robust_attacks_v2/verify.py'
+--------------------------------------------------------------------------------
+
+17:5: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+22:8: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+--------------------------------------------------------------------------------
+

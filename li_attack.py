@@ -77,19 +77,19 @@ class CarliniLi:
         # the variable to optimize over
         modifier = tf.Variable(np.zeros(shape,dtype=np.float32))
 
-        tau = tf.placeholder(tf.float32, [])
-        simg = tf.placeholder(tf.float32, shape)
-        timg = tf.placeholder(tf.float32, shape)
-        tlab = tf.placeholder(tf.float32, (1,model.num_labels))
-        const = tf.placeholder(tf.float32, [])
+        tau = tf.compat.v1.placeholder(tf.float32, [])
+        simg = tf.compat.v1.placeholder(tf.float32, shape)
+        timg = tf.compat.v1.placeholder(tf.float32, shape)
+        tlab = tf.compat.v1.placeholder(tf.float32, (1,model.num_labels))
+        const = tf.compat.v1.placeholder(tf.float32, [])
         
         newimg = (tf.tanh(modifier + simg)/2)
         
         output = model.predict(newimg)
         orig_output = model.predict(tf.tanh(timg)/2)
     
-        real = tf.reduce_sum((tlab)*output)
-        other = tf.reduce_max((1-tlab)*output - (tlab*10000))
+        real = tf.reduce_sum(input_tensor=(tlab)*output)
+        other = tf.reduce_max(input_tensor=(1-tlab)*output - (tlab*10000))
     
         if self.TARGETED:
             # if targetted, optimize for making the other class most likely
@@ -99,17 +99,17 @@ class CarliniLi:
             loss1 = tf.maximum(0.0,real-other)
 
         # sum up the losses
-        loss2 = tf.reduce_sum(tf.maximum(0.0,tf.abs(newimg-tf.tanh(timg)/2)-tau))
+        loss2 = tf.reduce_sum(input_tensor=tf.maximum(0.0,tf.abs(newimg-tf.tanh(timg)/2)-tau))
         loss = const*loss1+loss2
     
         # setup the adam optimizer and keep track of variables we're creating
-        start_vars = set(x.name for x in tf.global_variables())
-        optimizer = tf.train.AdamOptimizer(self.LEARNING_RATE)
+        start_vars = set(x.name for x in tf.compat.v1.global_variables())
+        optimizer = tf.compat.v1.train.AdamOptimizer(self.LEARNING_RATE)
         train = optimizer.minimize(loss, var_list=[modifier])
 
-        end_vars = tf.global_variables()
+        end_vars = tf.compat.v1.global_variables()
         new_vars = [x for x in end_vars if x.name not in start_vars]
-        init = tf.variables_initializer(var_list=[modifier]+new_vars)
+        init = tf.compat.v1.variables_initializer(var_list=[modifier]+new_vars)
     
         def doit(oimgs, labs, starts, tt, CONST):
             # convert to tanh-space
