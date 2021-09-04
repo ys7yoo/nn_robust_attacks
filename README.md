@@ -32,6 +32,12 @@ more efficient in the other direction.
 The following steps should be sufficient to get these attacks up and running on
 most Linux-based systems.
 
+[UPDATED]
+```
+pip3 install pillow scipy numpy tensorflow keras h5py
+```
+
+
 ```bash
     sudo apt-get install python3-pip
     sudo pip3 install --upgrade pip
