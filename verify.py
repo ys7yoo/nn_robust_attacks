@@ -23,9 +23,9 @@ with tf.compat.v1.Session() as sess:
     y = model.predict(x)
 
     r = []
-    for i in range(0,len(data.test_data),BATCH_SIZE):
-        pred = sess.run(y, {x: data.test_data[i:i+BATCH_SIZE]})
-        #print(pred)
-        #print('real',data.test_labels[i],'pred',np.argmax(pred))
-        r.append(np.argmax(pred,1) == np.argmax(data.test_labels[i:i+BATCH_SIZE],1))
+    for i in range(0, len(data.test_data), BATCH_SIZE):
+        pred = sess.run(y, {x: data.test_data[i:i + BATCH_SIZE]})
+        # print(pred)
+        # print('real',data.test_labels[i],'pred',np.argmax(pred))
+        r.append(np.argmax(pred, 1) == np.argmax(data.test_labels[i:i + BATCH_SIZE], 1))
         print(np.mean(r))
