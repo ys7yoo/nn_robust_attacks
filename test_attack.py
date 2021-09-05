@@ -86,6 +86,7 @@ if __name__ == "__main__":
             print("Adversarial:")
             show(adv[i])
 
-            print("Classification:", model.model.predict(adv[i:i + 1]))
+            print("Prediction of the valid:\n", model.model.predict(inputs[i:i + 1]))
+            print("Prediction of the adversarial:\n", model.model.predict(adv[i:i + 1]))
 
             print("Total distortion:", np.sum((adv[i] - inputs[i]) ** 2) ** .5)
